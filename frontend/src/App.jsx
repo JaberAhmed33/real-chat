@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useLayoutEffect, useState } from 'react';
+import Home from './pages/home/Home';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [bg, setBg] = useState('/bg1.webp');
 
+  useLayoutEffect(() => {
+    const newBg = "/bg" + (Math.floor(Math.random() * 7) + 1) + ".webp" ;
+
+    setBg(newBg)
+  }, []);
+  
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main
+    className={`w-full relative min-h-screen bg-[url('${bg}')] bg-fixed bg-center z-0 bg-no-repeat	bg-cover after:absolute after:top-0 after:z-[-1] after:w-full after:h-full after:bg-gradient-to-r from-gray-900/20 to-gray-900/20`}
+    >
+      <section className="p-4 h-screen flex items-center justify-center">
+        <Home />
+      </section>
+    </main>
+  );
 }
 
-export default App
+export default App;
