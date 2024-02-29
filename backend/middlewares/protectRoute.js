@@ -4,6 +4,8 @@ import User from "../models/user.model.js";
 const protectRoute = async (req, res, next) => {
   const token = req.cookies.jwt;
 
+  console.log(token);
+
   if (!token) {
     return res.status(401).json({ success: false, msg: "no token provided!" });
   }

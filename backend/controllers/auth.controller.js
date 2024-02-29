@@ -42,6 +42,7 @@ export const signupUser = async (req, res) => {
       success: true,
       msg: "generated a new user is done!",
       user: {
+        _id: newUser._id,
         fullName: newUser.fullName,
         username: newUser.username,
         profilePic: newUser.profilePic,
@@ -73,10 +74,12 @@ export const loginUser = async (req, res) => {
 
     generateTokenAndSetCookie(user._id, res);
 
+    console.log(req.cookies.jwt);
     return res.status(200).json({
       success: true,
       msg: "login is successfully!",
       user: {
+        _id: user._id,
         fullName: user.fullName,
         username: user.username,
         profilePic: user.profilePic,
