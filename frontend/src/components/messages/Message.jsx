@@ -8,6 +8,8 @@ export default function Message({ message }) {
 
   const isMe = message.senderId === authUser._id;
 
+  console.log(message);
+
   return (
     <div className={`chat  ${isMe ? "chat-end" : "chat-start"}`}>
       <div className="chat-image avatar">
@@ -21,7 +23,9 @@ export default function Message({ message }) {
       <div
         className={`chat-bubble text-black ${
           isMe ? " bg-emerald-200" : " bg-yellow-200"
-        }`}
+        } 
+        ${message.shake ? "shake" : ""}
+        `}
       >
         {message.message}
       </div>

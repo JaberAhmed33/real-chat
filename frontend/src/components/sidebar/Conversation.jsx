@@ -1,11 +1,15 @@
 import { useRef } from "react";
 import useStore from "../../store/useStore.js"
+import { useSocketContext } from "../../context/socketContext.jsx";
 
 export default function Conversation({conversation, emoji, lastIndex}) {
   const {selectedConversation, setSelectedConversation} = useStore()
   const selectedEle = useRef(null);
+  const {onLineUsers} = useSocketContext();
 
-  const isSelected = selectedConversation?._id === conversation._id;  
+  const isSelected = selectedConversation?._id === conversation._id;
+  const isOnline = onLineUsers.includes(conversation._id);
+  
 
   if (isSelected) {
     selectedEle.current.scrollIntoView({ behavior: "smooth" });
@@ -17,7 +21,7 @@ export default function Conversation({conversation, emoji, lastIndex}) {
         onClick={() => setSelectedConversation(conversation)}
         ref={selectedEle}
       >
-        <div className="avatar online">
+        <div className={`avatar ${isOnline ? "online" : "offline"}`}>
           <div className="w-12 rounded-full ">
             <img
               src={conversation.profilePic}

@@ -2,15 +2,16 @@ import useGetMessage from "../../hooks/useGetMessages";
 import Message from "./Message";
 import MessageSkeleton from "./../skeletons/MessageSkeleton";
 import { useEffect, useRef } from "react";
+import useSocketMessages from "../../hooks/useSocketMessages";
 
 export default function Messages() {
   const { messages, loading } = useGetMessage();
+  useSocketMessages();
   const lastMessage = useRef(null);
   
   useEffect(() => {
     const scrollTime = setTimeout(() => {
       if (lastMessage.current) {
-        console.log("hi");
         lastMessage.current.scrollIntoView({ behavior: "smooth" });
       }
     }, 100);
