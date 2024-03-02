@@ -7,14 +7,16 @@ export default function useSendMessage() {
   const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useStore();
 
-  const sendMessage = async (message) => {
+  const sendMessage = async ({ message, imgUrl }) => {
     const validInputs = validationMessageInputs({
       message,
+      imgUrl,
     });
 
     if (!validInputs) return;
 
     setLoading(true);
+
 
     try {
       const res = await fetch(
@@ -22,7 +24,7 @@ export default function useSendMessage() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
+          body: JSON.stringify({ message, imgUrl }),
         }
       );
 

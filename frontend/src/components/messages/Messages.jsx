@@ -32,7 +32,7 @@ export default function Messages() {
       ) : (
         messages.map((message) => (
           <div key={message._id} ref={lastMessage}>
-            <Message message={message} />
+            <Message message={message} loading={loading}/>
           </div>
         ))
       )}

@@ -1,13 +1,24 @@
 import { getReceiverId, io } from "../socket/socket.js";
 import Conversation from "./../models/conversation.model.js";
 import Message from "./../models/message.model.js";
+import {v2 as cloudinary} from 'cloudinary';
+          
+
+
 
 export const sendMessage = async (req, res) => {
-  const { message } = req.body;
+  cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.API_KEY, 
+    api_secret: process.env.API_SECRET
+  });
+
+  let { message, imgUrl } = req.body;
   const { id: receiverId } = req.params;
   const senderId = req.user._id;
 
   try {
+
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });
@@ -17,11 +28,24 @@ export const sendMessage = async (req, res) => {
         participants: [senderId, receiverId],
       });
     }
+    
+    if (imgUrl) {
+      const uploadedImg = await cloudinary.uploader.upload(
+        imgUrl,
+        (error, result) => {
+          // console.log(result,);
+          
+          if(error)throw new Error(error);
+        });
+
+      imgUrl = uploadedImg.secure_url
+    } 
 
     const newMessage = new Message({
       senderId,
       receiverId,
       message,
+      image: imgUrl || ""
     });
 
     if (newMessage) {

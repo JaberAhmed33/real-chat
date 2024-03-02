@@ -54,10 +54,10 @@ const validationLoginInputs = ({ username, password }) => {
   return true;
 };
 
-const validationMessageInputs = ({ message }) => {
+const validationMessageInputs = ({ message, imgUrl }) => {
 
-  if (!message) {
-    toast.error("please fill the message field.");
+  if (!message && !imgUrl) {
+    toast.error("please fill the message field or choses an image.");
     return false;
   }
 
